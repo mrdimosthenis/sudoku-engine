@@ -1,6 +1,6 @@
 module Traverse where
 
-import Data.List ((\\))
+import Data.List ((\\), find)
 
 type Elem = Int
 type Puzzle = [[Elem]]
@@ -41,16 +41,16 @@ isValidArea = allUnique . filter (/= 0)
 isValid :: Puzzle -> Bool
 isValid puzzle = (all isValidArea . map (\j -> elemsInSameRow puzzle (0, j)) $ [0..maxIndex])
               && (all isValidArea . map (\i -> elemsInSameCol puzzle (i, 0)) $ [0..maxIndex])
-              && (all isValidArea
-                . map (elemsInSameBox puzzle)
-                $ [(i, j) | i <- [0, bSize .. maxIndex], j <- [0, bSize .. maxIndex]])
+              && (all isValidArea . map (elemsInSameBox puzzle)              $
+                         [(i, j) | i <- [0, bSize .. maxIndex], j <- [0, bSize .. maxIndex]])
     where   maxIndex = length puzzle - 1
             bSize = boxSize puzzle
 
-freePoint :: Puzzle -> Point
-freePoint = undefined
+freePoint :: Puzzle -> Maybe Point
+freePoint = fmap fst
+          . find (\(_, elem) -> elem == 0)
+          . zip [(i, j) | i <- [0..], j <- [0..]]
+          . concat
 
 nextPuzzles :: Puzzle -> [Puzzle]
 nextPuzzles = undefined
-
-
