@@ -21,25 +21,36 @@ boxFloor puzzle (i, j) = (i - i `mod` bSize, j - j `mod` bSize)
     where   bSize = boxSize puzzle
 
 elemsInSameBox :: Puzzle -> Point -> [Elem]
-elemsInSameBox puzzle point = concatMap (part iFloor bSize) $ part jFloor bSize puzzle
-    where   part n m ls = take m $ drop n ls
+elemsInSameBox puzzle point = concatMap (sublist iFloor bSize) $ sublist jFloor bSize puzzle
+    where   sublist n m elems = take m $ drop n elems
             bSize = boxSize puzzle
             (iFloor, jFloor) = boxFloor puzzle point
 
 freeElems :: Puzzle -> Point -> [Elem]
-freeElems puzzle point = [1 .. length puzzle + 1] \\ reservedElems
+freeElems puzzle point = [1 .. length puzzle - 1] \\ reservedElems
     where   reservedElems = (elemsInSameRow puzzle point)
                          ++ (elemsInSameCol puzzle point)
                          ++ (elemsInSameBox puzzle point)
 
-isValid :: Puzzle -> Bool
-isValid = undefined
+isValidArea :: [Elem] -> Bool
+isValidArea = allUnique . filter (/= 0)
+    where   allUnique :: [Elem] -> Bool
+            allUnique []     = True
+            allUnique (x:xs) = x `notElem` xs && allUnique xs
 
-nextPoint :: Puzzle -> Point
-nextPoint = undefined
+isValid :: Puzzle -> Bool
+isValid puzzle = (all isValidArea . map (\j -> elemsInSameRow puzzle (0, j)) $ [0..maxIndex])
+              && (all isValidArea . map (\i -> elemsInSameCol puzzle (i, 0)) $ [0..maxIndex])
+              && (all isValidArea
+                . map (elemsInSameBox puzzle)
+                $ [(i, j) | i <- [0, bSize .. maxIndex], j <- [0, bSize .. maxIndex]])
+    where   maxIndex = length puzzle - 1
+            bSize = boxSize puzzle
+
+freePoint :: Puzzle -> Point
+freePoint = undefined
 
 nextPuzzles :: Puzzle -> [Puzzle]
 nextPuzzles = undefined
 
-isSolution :: Puzzle -> Bool
-isSolution = undefined
+
