@@ -2,55 +2,56 @@ module Traverse where
 
 import Data.List ((\\), find)
 
-type Elem = Int
-type Puzzle = [[Elem]]
+type Element = Int
+type Puzzle = [[Element]]
 type Index = Int
 type Point = (Index, Index)
 
 boxSize :: Puzzle -> Int
-boxSize = floor . sqrt . fromIntegral . length
+boxSize = floor . (\x -> x ::Float) . sqrt . fromIntegral . length
 
-elemsInSameRow :: Puzzle -> Point -> [Elem]
+elemsInSameRow :: Puzzle -> Point -> [Element]
 elemsInSameRow puzzle (_, j) = puzzle !! j
 
-elemsInSameCol :: Puzzle -> Point -> [Elem]
+elemsInSameCol :: Puzzle -> Point -> [Element]
 elemsInSameCol puzzle (i, _) = map (!! i) puzzle
 
 boxFloor :: Puzzle -> Point -> Point
 boxFloor puzzle (i, j) = (i - i `mod` bSize, j - j `mod` bSize)
     where   bSize = boxSize puzzle
 
-elemsInSameBox :: Puzzle -> Point -> [Elem]
+elemsInSameBox :: Puzzle -> Point -> [Element]
 elemsInSameBox puzzle point = concatMap (sublist iFloor bSize) $ sublist jFloor bSize puzzle
     where   sublist n m elems = take m $ drop n elems
             bSize = boxSize puzzle
             (iFloor, jFloor) = boxFloor puzzle point
 
-freeElems :: Puzzle -> Point -> [Elem]
-freeElems puzzle point = [1 .. length puzzle - 1] \\ reservedElems
+freeElems :: Puzzle -> Point -> [Element]
+freeElems puzzle point = [1 .. length puzzle] \\ reservedElems
     where   reservedElems = (elemsInSameRow puzzle point)
                          ++ (elemsInSameCol puzzle point)
                          ++ (elemsInSameBox puzzle point)
 
-isValidArea :: [Elem] -> Bool
-isValidArea = allUnique . filter (/= 0)
-    where   allUnique :: [Elem] -> Bool
-            allUnique []     = True
-            allUnique (x:xs) = x `notElem` xs && allUnique xs
-
-isValid :: Puzzle -> Bool
-isValid puzzle = (all isValidArea . map (\j -> elemsInSameRow puzzle (0, j)) $ [0..maxIndex])
-              && (all isValidArea . map (\i -> elemsInSameCol puzzle (i, 0)) $ [0..maxIndex])
-              && (all isValidArea . map (elemsInSameBox puzzle)              $
-                         [(i, j) | i <- [0, bSize .. maxIndex], j <- [0, bSize .. maxIndex]])
-    where   maxIndex = length puzzle - 1
-            bSize = boxSize puzzle
-
 freePoint :: Puzzle -> Maybe Point
-freePoint = fmap fst
-          . find (\(_, elem) -> elem == 0)
-          . zip [(i, j) | i <- [0..], j <- [0..]]
-          . concat
+freePoint puzzle = fmap fst
+                 . find (\(_, el) -> el == 0)
+                 . zip [(i, j) | j <- [0..maxIndex], i <- [0..maxIndex]]
+                 . concat
+                 $ puzzle
+    where   maxIndex = length puzzle - 1
 
-nextPuzzles :: Puzzle -> [Puzzle]
-nextPuzzles = undefined
+updatePuzzle :: Puzzle -> Point -> Element -> Puzzle
+updatePuzzle puzzle (i, j) el = update j updatedRow puzzle
+    where   update n newElem (x:xs)
+                | n == 0    = newElem:xs
+                | otherwise = x:update (n-1) newElem xs
+            updatedRow = update i el $ puzzle !! j
+
+nextPuzzles :: Puzzle -> Point -> [Puzzle]
+nextPuzzles puzzle point = map (updatePuzzle puzzle point) $ freeElems puzzle point
+
+solve :: [Puzzle] -> Maybe Puzzle
+solve []     = Nothing
+solve (x:xs) = case (freePoint x) of
+    Nothing    -> Just x
+    Just point -> solve (nextPuzzles x point ++ xs)
