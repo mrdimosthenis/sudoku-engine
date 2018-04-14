@@ -24,7 +24,7 @@ validationResponse puzzle
 parseAndSolve :: String -> Either String (Maybe Puzzle)
 parseAndSolve str
     | (elemsNum <= 1) || (sqrtSize * sqrtSize * sqrtSize * sqrtSize /= elemsNum) =
-        Left ("You provided " ++ show elemsNum ++ " elements\nValid number of elements: 16, 81, 144 ...")
+        Left ("You provided " ++ show elemsNum ++ " elements\nValid number of elements: 16, 81, 256 ...")
     | not $ null nonValidElems =
         Left ("Invalid elements: " ++ intercalate ", " (nub nonValidElems)
            ++ "\nValid elements: " ++ intercalate ", " (map show [1..size]))

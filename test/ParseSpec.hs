@@ -10,7 +10,7 @@ spec :: Spec
 spec = do
   describe "invalid" $ do
     it "size" $ do
-        parseAndSolve "1 2 3 4 5 6 7 8 9" `shouldBe` Left "You provided 9 elements\nValid number of elements: 16, 81, 144 ..."
+        parseAndSolve "1 2 3 4 5 6 7 8 9" `shouldBe` Left "You provided 9 elements\nValid number of elements: 16, 81, 256 ..."
     it "elements" $ do
         parseAndSolve "0 0 0 0 1 2 3 4 0 0 0 0 0 * * 2" `shouldBe` Left "Invalid elements: 0\nValid elements: 1, 2, 3, 4"
     it "same row column or square" $ do
