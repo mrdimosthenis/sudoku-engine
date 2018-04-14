@@ -16,11 +16,11 @@ stack build
 Execute it:
 ```
 stack exec sudoku-engine-exe " \
-> 1 2 * * \
-> * * 1 * \
-> * 1 4 * \
-> * * * 1 \
-> "
+1 2 * * \
+* * 1 * \
+* 1 4 * \
+* * * 1 \
+"
 ```
 
 The output will be:
