@@ -15,7 +15,7 @@ stack build
 
 Execute it:
 ```
-stack exec my-project-exe " \
+stack exec sudoku-engine-exe " \
 > 1 2 * * \
 > * * 1 * \
 > * 1 4 * \
