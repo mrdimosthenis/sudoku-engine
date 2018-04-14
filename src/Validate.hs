@@ -1,6 +1,6 @@
 module Validate where
 
-import Data.Maybe
+import Data.Maybe (isNothing)
 import Traverse
 
 isNonZeroUnique :: [Element] -> Bool
@@ -10,13 +10,11 @@ isNonZeroUnique = allUnique . filter (/= 0)
             allUnique (x:xs) = x `notElem` xs && allUnique xs
 
 isValid :: Puzzle -> Bool
-isValid puzzle = (all (`elem` [0..size]) . concat $ puzzle)
-              && (all isNonZeroUnique . map (\j -> elemsInSameRow puzzle (0, j)) $ [0..maxIndex])
+isValid puzzle = (all isNonZeroUnique . map (\j -> elemsInSameRow puzzle (0, j)) $ [0..maxIndex])
               && (all isNonZeroUnique . map (\i -> elemsInSameCol puzzle (i, 0)) $ [0..maxIndex])
               && (all isNonZeroUnique . map (elemsInSameBox puzzle)              $
                          [(i, j) | i <- [0, bSize .. maxIndex], j <- [0, bSize .. maxIndex]])
-    where   size = length puzzle
-            maxIndex = size - 1
+    where   maxIndex = length puzzle - 1
             bSize = boxSize puzzle
 
 isSolved :: Puzzle -> Bool

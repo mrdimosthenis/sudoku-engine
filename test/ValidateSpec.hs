@@ -29,22 +29,6 @@ spec = do
                 ,[0,5,0,0,1,9,0,2,0]
                 ,[0,0,0,0,0,8,0,0,6]
                 ,[4,8,1,0,0,0,0,7,0]] `shouldBe` False
-  describe "it is not valid when there is an invalid element" $ do
-    it "-1 in 4x4" $ do
-        isValid [[0,0,0,0]
-                ,[0,0,0,0]
-                ,[0,0,-1,0]
-                ,[0,0,0,0]] `shouldBe` False
-    it "10 in 9x9" $ do
-        isValid [[0,0,0,0,0,0,0,0,0]
-                ,[0,0,0,0,0,0,0,0,0]
-                ,[0,0,0,0,0,0,0,0,0]
-                ,[0,0,0,0,0,0,0,0,0]
-                ,[0,0,0,0,0,0,0,0,0]
-                ,[0,0,0,0,0,10,0,0,0]
-                ,[0,0,0,0,0,0,0,0,0]
-                ,[0,0,0,0,0,0,0,0,0]
-                ,[0,0,0,0,0,0,0,0,0]] `shouldBe` False
   describe "it is valid when it is" $ do
     it "empty 9x9" $ do
         isValid [[0,0,0,0,0,0,0,0,0]

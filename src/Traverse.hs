@@ -7,8 +7,11 @@ type Puzzle = [[Element]]
 type Index = Int
 type Point = (Index, Index)
 
+intSqrt :: Int -> Int
+intSqrt = floor . (\x -> x ::Float) . sqrt . fromIntegral
+
 boxSize :: Puzzle -> Int
-boxSize = floor . (\x -> x ::Float) . sqrt . fromIntegral . length
+boxSize = intSqrt . length
 
 elemsInSameRow :: Puzzle -> Point -> [Element]
 elemsInSameRow puzzle (_, j) = puzzle !! j
