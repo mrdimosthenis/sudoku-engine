@@ -31,4 +31,4 @@ The output will be:
 4 3 2 1
 ```
 
-It runs for any valid sudoku dimensions (4x4, 9x9, 16x16 ...).
+It runs for any ordinary size (4x4, 9x9, 16x16 ...).
