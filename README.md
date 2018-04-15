@@ -2,6 +2,8 @@
 
 This is my first program in Haskell. It is just a [60-line](https://github.com/mrdimosthenis/sudoku-engine/blob/master/src/Traverse.hs) sudoku engine.
 
+![Logo](https://github.com/mrdimosthenis/sudoku-engine/blob/master/icon.png)
+
 Let us give it a try!
 
 Install the program:
