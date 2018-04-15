@@ -1,6 +1,6 @@
 # sudoku-engine
 
-This is my first program in Haskell. Is just a [60-line](https://github.com/mrdimosthenis/sudoku-engine/blob/master/src/Traverse.hs) sudoku engine.
+This is my first program in Haskell. It is just a [60-line](https://github.com/mrdimosthenis/sudoku-engine/blob/master/src/Traverse.hs) sudoku engine.
 
 Please give it a try!
 
