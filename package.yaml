@@ -1,9 +1,9 @@
 name:                sudoku-engine
 version:             0.1.0.0
-github:              "githubuser/sudoku-engine"
-license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
+github:              "mrdimosthenis/sudoku-engine"
+license:             WTFPL
+author:              "Dimosthenis Michailidis"
+maintainer:          "mrdimosthenis@hotmail.com"
 copyright:           "2018 Author name here"
 
 extra-source-files:
@@ -17,7 +17,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on Github at <https://github.com/githubuser/sudoku-engine#readme>
+description:         Please see the README on Github at <https://github.com/mrdimosthenis/sudoku-engine#readme>
 
 dependencies:
 - base >= 4.7 && < 5

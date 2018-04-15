@@ -27,7 +27,7 @@ parseAndSolve str
         Left ("You provided " ++ show elemsNum ++ " elements\nValid number of elements: 16, 81, 256 ...")
     | not $ null nonValidElems =
         Left ("Invalid elements: " ++ intercalate ", " (nub nonValidElems)
-           ++ "\nValid elements: " ++ intercalate ", " (map show [1..size]))
+           ++ "\nValid elements: " ++ intercalate ", " ("*" : map show [1..size]))
     | otherwise = validationResponse . groupN (intSqrt elemsNum) . map (\x -> if x == "*" then 0 else read x) $ wrds
     where   wrds               = words $ trim str
             elemsNum           = length wrds
